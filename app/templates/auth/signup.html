@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>サインアップ</title>
+	</head>
+	<body>
+		<h1>アカウント作成</h1>
+
+		{# 全体のエラー（パスワード不一致など） #}
+		{% if form.non_field_errors %}
+			<ul>
+				{% for e in form.non_field_errors %}
+					<li>{{ e }}</li>
+			{% endfor %}
+			</ul>
+		{% endif $}
+
+		<form method="post">
+			{% csrf_token %}
+
+			<div>
+				<label for="{{ form.username.id_for_label }}">ユーザー名</label>
+				{{ form.username }}
+				{% if form.username.errors %}
+					<ul>
+						{% for e in form.username.errors %}
+							<li>{{ e }}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+
+			<div>
+				<label for="{{ form.password1.id_for_label }}">パスワード</label>
+				{{ form.password1 }}
+				{% if form.password1.errors %}
+					<ul>
+						{% for e in form.password1.errors %}
+							<li>{{ e }}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+
+			<div>
+				<label for="{{ form.password2.id_for_label }}">パスワード（確認用）</label>
+				{{ form.password2 }}
+				{% if form.password2.errors %}
+					<ul>
+						{% for e in form.password2.errors %}
+							<li>{{ e }}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			<button type="submit">アカウント作成</button>
+		</form>
+
+		<p>
+			すでにアカウントがありますか？
+			<a href="{% url 'login' %}">ログインへ</a>
+		</p>
+	</body>
+</html>
