@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% if obuject %}Todo編集{% endif %}</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>{% if object %}Todo編集{% else %}新しいTodo作成{% endif %}</h1>
+
+            {# フォーム全体のエラー #}
+            {% if form.non_field_errors %}
+                <ul class="errors">
+                    {% for e in form.non_field_errors %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div>
+                    <label for="{{ form.title.id_for_label }}">タイトル</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <ul class="errors">
+                            {% for e in form.title.errors %}
+                                <li>{{ e }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.description.id_for_label }}">詳細</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <ul class="errors">
+                            {% for e in form.description.errors %}
+                                <li>{{ e }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.due_date.id_for_label }}">期限</label>
+                    {{ form.due_date }}
+                    {% if form.due_date.errors %}
+                        <ul class="errors">
+                            {% for e in form.due_date.errors %}
+                                <li>{{ e }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.is_done.id_for_label }}">完了</label>
+                    {{ form.is_done }}
+                    {% if form.is_done.errors %}
+                        <ul class="errors">
+                            {% for e in form.is_done.errors %}
+                                <li>{{ e }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <button type="submit">{% if object %}更新{% else %}作成{% endif %}</button>
+            </form>
+            <p><a href="{% url 'todos:list' %}">Todo一覧へ戻る</a></p>
+        </div>
+    </body>
+</html>
