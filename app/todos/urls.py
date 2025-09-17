@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import TodoList, TodoCreate, TodoUpdate, TodoDelete
 
+app_name = "todos"
+
 urlpatterns = [
     path("", TodoList.as_view(), name="list"),
     path("new/", TodoCreate.as_view(), name="create"),

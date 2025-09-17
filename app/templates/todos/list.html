@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Todos</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Todo一覧</h1>
+
+            <p>
+                <a href="{% url 'todos:create' %}">新しいTodoを作成</a>
+                <a href="{% url 'login' %}">ログアウト</a>
+            </p>
+
+            {% if todos %}
+                <ul>
+                    {% for todo in todos %}
+                        <li>
+                            {% if todo.is_done %}✅{% else %}❌{% endif %}
+                            <strong>{{ t.title }}</strong>
+                            {% if todo.due_date %}(期限: {{ todo.due_date }}){% endif %}
+                            <br>
+                            <a href="{% url 'todos:update' todo.id %}">編集</a>
+                            <a href="{% url 'todos:delete' todo.id %}">削除</a>
+                            {% if todo.description %}<div>{{ todo.description }}</div>{% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Todoはまだありません。<a href="{% url 'todos:create' %}">新しいTodoを作成</a>してください。</p>
+            {% endif %}
+        </div>
+    </body>
+</html>

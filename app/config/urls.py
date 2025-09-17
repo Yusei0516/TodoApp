@@ -22,8 +22,8 @@ from todos.views import signup
 urlpatterns = [
     path('admin/', admin.site.urls),
     # 認証（ログイン/ログアウト）
-    path("login/", auth_views.LoginView.as_view(temlate_name="auth/login.html"), name="login"),
-    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path("login/", auth_views.LoginView.as_view(template_name="auth/login.html"), name="login"),
+    path("logout/", auth_views.LogoutView.as_view(next_page="login"), name="logout"),
     # サインアップ（関数ビュー）
     path("signup/", signup, name="signup"),
     

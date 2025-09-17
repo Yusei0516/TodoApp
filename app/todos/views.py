@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Todo
-from .form import TodoForm
+from .forms import TodoForm
 
 def signup(request):
     if request.method == "POST":
@@ -49,18 +49,20 @@ class TodoCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("todos:list")
 
     def form_valid(self, form):
-        form.instance_user = self.request.user
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.save()
         return super().form_valid(form)
 
-class TodoUpdate(LoginRequredMixin, OwnerOnlyMixin, UpsateView):
+class TodoUpdate(LoginRequiredMixin, OwnerOnlyMixin, UpdateView):
     model = Todo
     form_class = TodoForm
     template_name = "todos/form.html"
     success_url = reverse_lazy("todos:list")
 
-class TodoDelete(LoginRequredMixin, OwnerOnlyMixin, DeleteView):
-    model = todo
+class TodoDelete(LoginRequiredMixin, OwnerOnlyMixin, DeleteView):
+    model = Todo
     template_name = "todos/confirm_delete.html"
-    success_url = reverse_lazy("todo:list")
+    success_url = reverse_lazy("todos:list")
 # Create your views here.
 
