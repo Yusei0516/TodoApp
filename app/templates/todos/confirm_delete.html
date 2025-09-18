@@ -1,25 +1,17 @@
-<!DOCTYPE html>
-<html lang="ja">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Todo削除</title>
-        {% load static %}
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    </head>
-    <body>
-        <div class="container">
-            <h1>Todo削除</h1>
-
-            <p>本当にこのTodoを削除してもよろしいですか？</p>
-            <p><strong>{{ object.title }}</strong></p>
+{% extends 'base.html' %}
+{% block title %}削除の確認{% endblock %}
+{% block content %}
+    <h1 class="h4 mb-3">削除の確認</h1>
+    <div class="card mb-3">
+        <div class="card-body">
+            <p class="mb-2"><strong>{{ object.title }}</strong></p>
             {% if object.description %}<p>{{ object.description }}</p>{% endif %}
             {% if object.due_date %}<p>期限: {{ object.due_date }}</p>{% endif %}
-
-            <form method="post">
-                {% csrf_token %}
-                <button type="submit">削除</button>
-            </form>
-            <p><a href="{% url 'todos:list' %}">キャンセルしてTodo一覧へ戻る</a></p>
         </div>
-    </body>
-</html>
+    </div>
+    <form method="post" class="d-flex gap-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">削除する</button>
+        <a href="{% url 'todos:list' %}" class="btn btn-secondary">一覧に戻る</a>
+    </form>
+{% endblock %}
