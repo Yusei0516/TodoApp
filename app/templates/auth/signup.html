@@ -1,69 +1,33 @@
-<<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <title>サインアップ</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  </head>
-  <body>
-    <div class="container">
-      <h1>アカウント作成</h1>
+{% extends "base.html" %}
+{% block title %}サインアップ{% endblock %}
+{% block content %}
+  <h1 class="h3 mb-3">アカウント作成</h1>
 
-      {% if form.non_field_errors %}
-        <ul class="errors">
-          {% for e in form.non_field_errors %}
-            <li>{{ e }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
+  <form method="post" class="row gy-3">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
 
-      <form method="post">
-        {% csrf_token %}
-
-        <div>
-          <label for="{{ form.username.id_for_label }}">ユーザー名</label>
-          {{ form.username }}
-          {% if form.username.errors %}
-            <ul class="errors">
-              {% for e in form.username.errors %}
-                <li>{{ e }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </div>
-
-        <div>
-          <label for="{{ form.password1.id_for_label }}">パスワード</label>
-          {{ form.password1 }}
-          {% if form.password1.errors %}
-            <ul class="errors">
-              {% for e in form.password1.errors %}
-                <li>{{ e }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </div>
-
-        <div>
-          <label for="{{ form.password2.id_for_label }}">パスワード（確認）</label>
-          {{ form.password2 }}
-          {% if form.password2.errors %}
-            <ul class="errors">
-              {% for e in form.password2.errors %}
-                <li>{{ e }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </div>
-
-        <button type="submit">アカウントを作成</button>
-      </form>
-
-      <p>
-        すでにアカウントがありますか？
-        <a href="{% url 'login' %}">ログインへ</a>
-      </p>
+    <div class="col-12">
+      <label class="form-label" for="{{ form.username.id_for_label }}">ユーザー名</label>
+      {{ form.username }}
+      {{ form.username.errors }}
     </div>
-  </body>
-</html>
+
+    <div class="col-12">
+      <label class="form-label" for="{{ form.password1.id_for_label }}">パスワード</label>
+      {{ form.password1 }}
+      {{ form.password1.errors }}
+    </div>
+
+    <div class="col-12">
+      <label class="form-label" for="{{ form.password2.id_for_label }}">パスワード（確認用）</label>
+      {{ form.password2 }}
+      {{ form.password2.errors }}
+    </div>
+
+    <div class="col-12 d-flex gap-2">
+      <button type="submit" class="btn btn-primary">登録</button>
+      <a href="{% url 'login' %}" class="btn btn-outline-secondary">ログインへ</a>
+    </div>
+  </form>
+{% endblock %}
