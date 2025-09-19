@@ -132,3 +132,5 @@ LOGIN_REDIRECT_URL = "todos:list"
 LOGOUT_REDIRECT_URL = "login"
 LOGIN_URL = "login"
 
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = "django.contrib.messages.storage.session.SessionStorage"

@@ -2,32 +2,64 @@
 {% block title %}Todo一覧{% endblock %}
 
 {% block content %}
-  <h1 class="mb-4">Todo一覧</h1>
-
-  <a href="{% url 'todos:create' %}" class="btn btn-primary mb-3">新しいTodoを作成</a>
-
+  <div class="d-flex align-items-center justify-content-between mb-3">
+     <h1 class="h3 m-0">Todo一覧</h1>
+      <a href="{% url 'todos:create' %}" class="btn btn-primary">新しいTodoを作成</a>
+  </div>
+ 
   {% if todos %}
-    <ul class="list-group">
-      {% for todo in todos %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <div>
-            {% if todo.is_done %}
-              ✅ <strong>{{ todo.title }}</strong>
-            {% else %}
-              ❌ <strong>{{ todo.title }}</strong>
-            {% endif %}
-            {% if todo.due_date %}
-              <small class="text-muted">(期限: {{ todo.due_date }})</small>
-            {% endif %}
-          </div>
-          <div>
-            <a href="{% url 'todos:update' todo.id %}" class="btn btn-sm btn-warning">編集</a>
-            <a href="{% url 'todos:delete' todo.id %}" class="btn btn-sm btn-danger">削除</a>
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th style="width: 3rem;">状態</th>
+            <th>タイトル</th>
+            <th style="width: 10rem;">操作</th>
+            <th style="width: 12rem;">期限</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for todo in todos %}
+          <tr class="{% if todo.is_done %}text-muted{% endif %}">
+            <td>
+              {% if todo.is_done %}
+                ✅
+              {% elif todo.is_overdue %}
+                ❌
+              {% else %}
+                ⏳
+              {% endif %}
+            </td>
+            <td>
+              <strong class="{% if todo.is_done %}text-decoration-line-through{% endif %}">
+                {{ todo.title }}
+              </strong><br>
+              {% if todo.due_date %}
+                <small class="text-muted">{{ todo.description }}</small>
+              {% endif %}
+            </td>
+            <td>
+              {% if not todo.due_date %}
+                <span class="{% if todo.is_overdue %}text-danger fw-semibold{% endif %}">
+                  {{ todo.due_date | date:"Y-m-d" }}
+                </span>
+              {% else %}
+                <span class="text-muted">-</span>
+              {% endif %}
+              </td>
+              <td>
+                <a href="{% url 'todos:update' todo.id %}" class="btn btn-sm btn-warning">編集</a>
+                <a href="{% url 'todos:delete' todo.id %}" class="btn btn-sm btn-danger">削除</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   {% else %}
-    <p>Todoはまだありません。</p>
+    <div class="text-center py-5">
+      <p class="mb-3">まだTodoがありません。</p>
+      <a href="{% url 'todos:create' %}" class="btn btn-primary">新しいTodoを作成</a>
+    </div>
   {% endif %}
 {% endblock %}
