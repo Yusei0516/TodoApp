@@ -7,6 +7,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Todo
 from .forms import TodoForm
+from django.contrib import messages
+
 
 def signup(request):
     if request.method == "POST":
@@ -37,7 +39,7 @@ class TodoList(LoginRequiredMixin, ListView):
     context_object_name = "todos"
 
     def get_queryset(self):
-        return Todo.objects.filter(user=self.request.user)
+        return (Todo.objects.filter(user=self.request.user).order_by("is_done", "due_date", "-created_at"))
 
 class TodoCreate(LoginRequiredMixin, CreateView):
     """
@@ -52,6 +54,7 @@ class TodoCreate(LoginRequiredMixin, CreateView):
         obj = form.save(commit=False)
         obj.user = self.request.user
         obj.save()
+        messages.success(self.request, "ToDoを作成しました。")
         return super().form_valid(form)
 
 class TodoUpdate(LoginRequiredMixin, OwnerOnlyMixin, UpdateView):
@@ -59,10 +62,16 @@ class TodoUpdate(LoginRequiredMixin, OwnerOnlyMixin, UpdateView):
     form_class = TodoForm
     template_name = "todos/form.html"
     success_url = reverse_lazy("todos:list")
+    def form_valid(self, form):
+        messages.success(self.request, "ToDoを更新しました。")
+        return super().form_valid(form)
 
 class TodoDelete(LoginRequiredMixin, OwnerOnlyMixin, DeleteView):
     model = Todo
     template_name = "todos/confirm_delete.html"
     success_url = reverse_lazy("todos:list")
+    def delete(self, form):
+        messages.success(self.request, "ToDoを削除しました。")
+        return super().form_valid(form)
 # Create your views here.
 
