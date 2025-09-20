@@ -5,7 +5,7 @@ Django学習用個人開発
 ## 🚀使用技術
 - **フロントエンド**：HTML, CSS, Bootstrap
 - **バックエンド**：Python（Django）, MySQL
-- **インフラ**：インフラ
+- **インフラ**：Docker
 
 ---
 ## ▶️  起動方法
