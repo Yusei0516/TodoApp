@@ -51,9 +51,10 @@ class TodoCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("todos:list")
 
     def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.user = self.request.user
-        obj.save()
+        # obj = form.save(commit=False)
+        # obj.user = self.request.user
+        # obj.save()
+        form.instance.user = self.request.user
         messages.success(self.request, "ToDoを作成しました。")
         return super().form_valid(form)
 
