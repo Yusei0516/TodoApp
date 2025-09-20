@@ -19,13 +19,14 @@
                 
                 <div class="ms-auto d-flex gap-2">
                     {% if user.is_authenticated %}
+                        <span class="navbar-text">ようこそ、<strong>{{ user.username }}</strong>さん</span>
                         <a class="btn btn-primary" href="{% url 'todos:create' %}">新規作成</a>
                         <form method="post" action="{% url 'logout' %}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-secondary">ログアウト</button>
                         </form>
                     {% else %}
-                        <a class="btn btn-outline-primary" href="{% url 'login' %}">ログイン</a>
+                         <a class="btn btn-outline-primary" href="{% url 'login' %}">ログイン</a>
                         <a class="btn btn-primary" href="{% url 'signup' %}">サインアップ</a>
                     {% endif %}
                 </div>
