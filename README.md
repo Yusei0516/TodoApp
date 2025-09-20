@@ -13,6 +13,9 @@ Django学習用個人開発
 # 環境変数ファイルの作成
 cp .env.example .env
 
+# 🔑SECRET_KEY生成方法
+python -c "import secrets; print(secrets.token_urlsafe(50))"
+
 # ビルド
 docker comose build
 
