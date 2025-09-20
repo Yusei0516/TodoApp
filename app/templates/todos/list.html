@@ -14,8 +14,8 @@
           <tr>
             <th style="width: 3rem;">状態</th>
             <th>タイトル</th>
-            <th style="width: 10rem;">操作</th>
             <th style="width: 12rem;">期限</th>
+            <th style="width: 10rem;">操作</th>
           </tr>
         </thead>
         <tbody>
@@ -34,13 +34,14 @@
               <strong class="{% if todo.is_done %}text-decoration-line-through{% endif %}">
                 {{ todo.title }}
               </strong><br>
-              {% if todo.due_date %}
+              {% if todo.description %}
                 <small class="text-muted">{{ todo.description }}</small>
               {% endif %}
             </td>
             <td>
-              {% if not todo.due_date %}
-                <span class="{% if todo.is_overdue %}text-danger fw-semibold{% endif %}">
+              {% if todo.due_date %}
+                <!-- <span>{{ todo.due_date | date:"Y-m-d" }}</span> -->
+                <span class="{% if todo.is_overdue %}text-danger fw-bold{% endif %}">
                   {{ todo.due_date | date:"Y-m-d" }}
                 </span>
               {% else %}

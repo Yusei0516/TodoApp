@@ -13,8 +13,9 @@ class Todo(models.Model):
     @property
     def is_overdue(self):
         return bool(self.due_date) and not self.is_done and self.due_date < timezone.localdate()
+    
 
-    class Meta: 
+    class Meta:
         ordering = ["is_done", "-created_at"]
 
     def __str__(self):
