@@ -17,7 +17,7 @@ cp .env.example .env
 python -c "import secrets; print(secrets.token_urlsafe(50))"
 
 # ビルド
-docker comose build
+docker compose build
 
 # 起動
 docker compose up
